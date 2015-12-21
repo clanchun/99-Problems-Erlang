@@ -1,7 +1,9 @@
 -module(e99).
 
 -export([last/1,
-         last_but_one/1
+         last_but_one/1,
+         kth/2,
+         len/1
         ]).
 
 %%% Part 1: Lists
@@ -23,3 +25,17 @@ last_but_one([X, _]) ->
     X;
 last_but_one([_ | T]) ->
     last_but_one(T).
+
+%% 1.03: Find the K'th element of a list.
+kth([], _) ->
+    throw(none);
+kth([X | _], 1) ->
+    X;
+kth([_ | T], N) ->
+    kth(T, N - 1).
+
+%% 1.04: Find the number of elements of a list.
+len([]) ->
+    0;
+len([_ | T]) ->
+    1 + len(T).
