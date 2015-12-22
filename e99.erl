@@ -3,7 +3,8 @@
 -export([last/1,
          last_but_one/1,
          kth/2,
-         len/1
+         len/1,
+         reverse/1, reverse2/1
         ]).
 
 %%% Part 1: Lists
@@ -39,3 +40,17 @@ len([]) ->
     0;
 len([_ | T]) ->
     1 + len(T).
+
+%% 1.05: Reverse a list.
+reverse([]) ->
+    [];
+reverse([X | T]) ->
+    reverse(T) ++ [X].
+
+reverse2(L) ->
+    reverse2(L, []).
+
+reverse2([], Acc) ->
+    Acc;
+reverse2([X | T], Acc) ->
+    reverse2(T, [X | Acc]).
