@@ -4,7 +4,8 @@
          last_but_one/1,
          kth/2,
          len/1,
-         reverse/1, reverse2/1
+         reverse/1, reverse2/1,
+         is_palindrome/1
         ]).
 
 %%% Part 1: Lists
@@ -54,3 +55,14 @@ reverse2([], Acc) ->
     Acc;
 reverse2([X | T], Acc) ->
     reverse2(T, [X | Acc]).
+
+%% 1.06: Find out whether a list is a palindrome.
+is_palindrome(L) ->
+    is_palindrome(L, reverse2(L)).
+
+is_palindrome([], []) ->
+    true;
+is_palindrome([X | T1], [X | T2]) ->
+    is_palindrome(T1, T2);
+is_palindrome(_, _) ->
+    false.
