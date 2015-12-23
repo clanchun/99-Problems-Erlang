@@ -6,7 +6,8 @@
          len/1,
          reverse/1, reverse2/1,
          is_palindrome/1,
-         flatten/1
+         flatten/1,
+         compress/1
         ]).
 
 %%% Part 1: Lists
@@ -75,3 +76,14 @@ flatten([X  | T]) when not is_list(X) ->
     [X | flatten(T)];
 flatten([X | T]) ->
     flatten(X) ++ flatten(T).
+
+%% 1.08: Eliminate consecutive duplicates of list elements
+compress([]) ->
+    [];
+compress([X]) ->
+    [X];
+compress([X, X | T]) ->
+    compress([X | T]);
+compress([X, Y | T]) ->
+    [X, Y | compress(T)].
+
