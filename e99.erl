@@ -5,7 +5,8 @@
          kth/2,
          len/1,
          reverse/1, reverse2/1,
-         is_palindrome/1
+         is_palindrome/1,
+         flatten/1
         ]).
 
 %%% Part 1: Lists
@@ -66,3 +67,11 @@ is_palindrome([X | T1], [X | T2]) ->
     is_palindrome(T1, T2);
 is_palindrome(_, _) ->
     false.
+
+%% 1.07: Flatten a list
+flatten([]) ->
+    [];
+flatten([X  | T]) when not is_list(X) ->
+    [X | flatten(T)];
+flatten([X | T]) ->
+    flatten(X) ++ flatten(T).
