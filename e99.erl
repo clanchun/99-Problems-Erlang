@@ -7,7 +7,8 @@
          reverse/1, reverse2/1,
          is_palindrome/1,
          flatten/1,
-         compress/1
+         compress/1,
+         pack/1
         ]).
 
 %%% Part 1: Lists
@@ -86,4 +87,19 @@ compress([X, X | T]) ->
     compress([X | T]);
 compress([X, Y | T]) ->
     [X, Y | compress(T)].
+
+%% 1.09 Pack consecutive duplicates of list elements into sublists.
+pack(L) ->
+    pack(L, []).
+
+pack([], _) ->
+    [];
+pack([X], [X | _] = Acc) ->
+    [[X | Acc]];
+pack([X], _) ->
+    [[X]];
+pack([X, X | T], Acc) ->
+    pack([X | T], [X | Acc]);
+pack([X, Y | T], Acc) ->
+    [[X | Acc] | pack([Y | T], [])].
 
