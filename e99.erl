@@ -9,7 +9,8 @@
          flatten/1,
          compress/1,
          pack/1,
-         length_encode/1
+         length_encode/1,
+         length_encode2/1
         ]).
 
 %%% Part 1: Lists
@@ -113,3 +114,15 @@ lencode([]) ->
     [];
 lencode([[X | _] = T1 | T2]) ->
     [{len(T1), X} | lencode(T2)].
+
+%% 1.11: Modified run-length encoding.
+length_encode2(L) ->
+    L1 = pack(L),
+    lencode2(L1).
+
+lencode2([]) ->
+    [];
+lencode2([[X] | T2]) ->
+    [X | lencode2(T2)];
+lencode2([[X | _] = T1 | T2]) ->
+    [{len(T1), X} | lencode2(T2)].
