@@ -8,7 +8,8 @@
          is_palindrome/1,
          flatten/1,
          compress/1,
-         pack/1
+         pack/1,
+         length_encode/1
         ]).
 
 %%% Part 1: Lists
@@ -103,3 +104,12 @@ pack([X, X | T], Acc) ->
 pack([X, Y | T], Acc) ->
     [[X | Acc] | pack([Y | T], [])].
 
+%% 1.10: Run-length encoding of a list.
+length_encode(L) ->
+    L1 = pack(L),
+    lencode(L1).
+
+lencode([]) ->
+    [];
+lencode([[X | _] = T1 | T2]) ->
+    [{len(T1), X} | lencode(T2)].
