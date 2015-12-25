@@ -11,7 +11,8 @@
          pack/1,
          length_encode/1,
          length_encode2/1,
-         length_decode/1
+         length_decode/1,
+         length_encode3/1
         ]).
 
 %%% Part 1: Lists
@@ -140,3 +141,20 @@ uncompress(0, _) ->
     [];
 uncompress(N, X) ->
     [X | uncompress(N - 1, X)].
+
+%% 13: Run-length encoding of a list (direct solution).
+length_encode3(L) ->
+    lencode3(L, 0).
+
+lencode3([], _) ->
+    [];
+lencode3([X], 0) ->
+    [X];
+lencode3([X], N) ->
+    [{N + 1, X}];
+lencode3([X, X | T], N) ->
+    lencode3([X | T], N + 1);
+lencode3([X, Y | T], 0) ->
+    [X | lencode3([Y | T], 0)];
+lencode3([X, Y | T], N) ->
+    [{N + 1, X} | lencode3([Y | T], 0)].
