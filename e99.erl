@@ -10,7 +10,8 @@
          compress/1,
          pack/1,
          length_encode/1,
-         length_encode2/1
+         length_encode2/1,
+         length_decode/1
         ]).
 
 %%% Part 1: Lists
@@ -126,3 +127,16 @@ lencode2([[X] | T2]) ->
     [X | lencode2(T2)];
 lencode2([[X | _] = T1 | T2]) ->
     [{len(T1), X} | lencode2(T2)].
+
+%% 1.12: Decode a run-length encoded list.
+length_decode([]) ->
+    [];
+length_decode([{N, X} | T]) ->
+    uncompress(N, X) ++ length_decode(T);
+length_decode([X | T]) ->
+    [X | length_decode(T)].
+
+uncompress(0, _) ->
+    [];
+uncompress(N, X) ->
+    [X | uncompress(N - 1, X)].
