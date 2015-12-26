@@ -13,7 +13,8 @@
          length_encode2/1,
          length_decode/1,
          length_encode3/1,
-         duplicate/1
+         duplicate/1,
+         replicate/2
         ]).
 
 %%% Part 1: Lists
@@ -166,3 +167,8 @@ duplicate([]) ->
 duplicate([X | T]) ->
     [X, X | duplicate(T)].
 
+%% 1.15: Replicate the elements of a list a given number of times
+replicate([], _) ->
+    [];
+replicate([X | T], N) ->
+    uncompress(N, X) ++ replicate(T, N).
