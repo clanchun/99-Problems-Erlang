@@ -12,7 +12,8 @@
          length_encode/1,
          length_encode2/1,
          length_decode/1,
-         length_encode3/1
+         length_encode3/1,
+         duplicate/1
         ]).
 
 %%% Part 1: Lists
@@ -158,3 +159,10 @@ lencode3([X, Y | T], 0) ->
     [X | lencode3([Y | T], 0)];
 lencode3([X, Y | T], N) ->
     [{N + 1, X} | lencode3([Y | T], 0)].
+
+%% 1.14: Duplicate the elements of a list.
+duplicate([]) ->
+    [];
+duplicate([X | T]) ->
+    [X, X | duplicate(T)].
+
