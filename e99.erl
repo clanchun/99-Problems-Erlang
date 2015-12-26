@@ -14,7 +14,8 @@
          length_decode/1,
          length_encode3/1,
          duplicate/1,
-         replicate/2
+         replicate/2,
+         drop/2
         ]).
 
 %%% Part 1: Lists
@@ -172,3 +173,15 @@ replicate([], _) ->
     [];
 replicate([X | T], N) ->
     uncompress(N, X) ++ replicate(T, N).
+
+%% 1.16 Drop every N'th element from a list.
+drop(T, N) ->
+    drop(T, N, 1).
+
+drop([], _, _) ->
+    [];
+drop([X | T], N, N) ->
+    drop(T, N, 1);
+drop([X | T], N, M) ->
+    [X | drop(T, N, M + 1)].
+    
