@@ -15,7 +15,8 @@
          length_encode3/1,
          duplicate/1,
          replicate/2,
-         drop/2
+         drop/2,
+         split/2
         ]).
 
 %%% Part 1: Lists
@@ -185,3 +186,13 @@ drop([X | T], N, N) ->
 drop([X | T], N, M) ->
     [X | drop(T, N, M + 1)].
     
+%% 1.17 Split a list into two parts; the length of the first part is given.
+split(L, N) ->
+    split(L, [], N).
+
+split([], Acc, _) ->
+    {Acc, []};
+split(L, Acc, 0) ->
+    {Acc, L};
+split([X | T], Acc, N) ->
+    split(T, Acc ++ [X], N - 1).
