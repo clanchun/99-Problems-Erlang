@@ -16,7 +16,8 @@
          duplicate/1,
          replicate/2,
          drop/2,
-         split/2
+         split/2,
+         slice/3
         ]).
 
 %%% Part 1: Lists
@@ -196,3 +197,9 @@ split(L, Acc, 0) ->
     {Acc, L};
 split([X | T], Acc, N) ->
     split(T, Acc ++ [X], N - 1).
+
+%% 1.18 Extract a slice from a list.
+slice(L, S, E) ->
+    {_, L1} = split(L, S - 1),
+    {L2, _} = split(L1, E - S + 1),
+    L2.
