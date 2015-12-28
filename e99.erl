@@ -18,7 +18,8 @@
          drop/2,
          split/2,
          slice/3,
-         rotate/2
+         rotate/2,
+         remove/2
         ]).
 
 %%% Part 1: Lists
@@ -212,3 +213,11 @@ rotate(L, N) when N >= 0 ->
 rotate(L, N) ->
     {Left, Right} = split(L, len(L) + N),
     Right ++ Left.
+
+%% 1.20 Remove the K'th element from a list.
+remove([], _) ->
+    throw(none);
+remove([X | T], 1) ->
+    T;
+remove([X | T], N) ->
+    [X | remove(T, N - 1)].
