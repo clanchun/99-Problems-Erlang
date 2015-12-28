@@ -19,7 +19,8 @@
          split/2,
          slice/3,
          rotate/2,
-         remove/2
+         remove/2,
+         insert/3
         ]).
 
 %%% Part 1: Lists
@@ -221,3 +222,11 @@ remove([X | T], 1) ->
     T;
 remove([X | T], N) ->
     [X | remove(T, N - 1)].
+
+%% 1.21 Insert an element at a given position into a list.
+insert(L, 0, X) ->
+    [X | L];
+insert([], _, _) ->
+    throw(out_of_range);
+insert([Y | T], N, X) ->
+    [Y | insert(T, N - 1, X)].
