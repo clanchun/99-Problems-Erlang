@@ -17,7 +17,8 @@
          replicate/2,
          drop/2,
          split/2,
-         slice/3
+         slice/3,
+         rotate/2
         ]).
 
 %%% Part 1: Lists
@@ -203,3 +204,11 @@ slice(L, S, E) ->
     {_, L1} = split(L, S - 1),
     {L2, _} = split(L1, E - S + 1),
     L2.
+
+%% 1.19 Rotate a list N places to the left.
+rotate(L, N) when N >= 0 ->
+    {Left, Right} = split(L, N),
+    Right ++ Left;
+rotate(L, N) ->
+    {Left, Right} = split(L, len(L) + N),
+    Right ++ Left.
