@@ -20,7 +20,8 @@
          slice/3,
          rotate/2,
          remove/2,
-         insert/3
+         insert/3,
+         range/2
         ]).
 
 %%% Part 1: Lists
@@ -230,3 +231,9 @@ insert([], _, _) ->
     throw(out_of_range);
 insert([Y | T], N, X) ->
     [Y | insert(T, N - 1, X)].
+
+%% 1.22 Create a list containing all integers within a given range.
+range(S, S) ->
+    [S];
+range(S, E) ->
+    [S | range(S + 1, E)].
