@@ -22,7 +22,8 @@
          remove/2,
          insert/3,
          range/2,
-         random_select/2
+         random_select/2,
+         random_select2/2
         ]).
 
 %%% Part 1: Lists
@@ -249,3 +250,7 @@ random_select(L, N) ->
     I = random:uniform(len(L)),
     {X, L1} = remove(L, I),
     [X | random_select(L1, N - 1)].
+
+%% 1.24 Lotto: Draw N different random numbers from the set 1..M.
+random_select2(M, N) ->
+    random_select(range(1, M), N).
