@@ -21,7 +21,8 @@
          rotate/2,
          remove/2,
          insert/3,
-         range/2
+         range/2,
+         random_select/2
         ]).
 
 %%% Part 1: Lists
@@ -220,9 +221,10 @@ rotate(L, N) ->
 remove([], _) ->
     throw(none);
 remove([X | T], 1) ->
-    T;
+    {X, T};
 remove([X | T], N) ->
-    [X | remove(T, N - 1)].
+    {Y, L1} = remove(T, N - 1),
+    {Y, [X | L1]}.
 
 %% 1.21 Insert an element at a given position into a list.
 insert(L, 0, X) ->
@@ -237,3 +239,13 @@ range(S, S) ->
     [S];
 range(S, E) ->
     [S | range(S + 1, E)].
+
+%% 1.23 Extract a given number of randomly selected elements from a list.
+random_select([], N) when N > 0 ->
+    throw(too_many);
+random_select(_, 0) ->
+    [];
+random_select(L, N) ->
+    I = random:uniform(len(L)),
+    {X, L1} = remove(L, I),
+    [X | random_select(L1, N - 1)].
