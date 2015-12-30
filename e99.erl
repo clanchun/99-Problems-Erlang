@@ -23,7 +23,8 @@
          insert/3,
          range/2,
          random_select/2,
-         random_select2/2
+         random_select2/2,
+         random_permu/1
         ]).
 
 %%% Part 1: Lists
@@ -254,3 +255,7 @@ random_select(L, N) ->
 %% 1.24 Lotto: Draw N different random numbers from the set 1..M.
 random_select2(M, N) ->
     random_select(range(1, M), N).
+
+%% 1.25 Generate a random permutation of the elements of a list.
+random_permu(L) ->
+    random_select(L, len(L)).
