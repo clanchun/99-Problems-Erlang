@@ -24,7 +24,8 @@
          range/2,
          random_select/2,
          random_select2/2,
-         random_permu/1
+         random_permu/1,
+         combination/2
         ]).
 
 %%% Part 1: Lists
@@ -259,3 +260,22 @@ random_select2(M, N) ->
 %% 1.25 Generate a random permutation of the elements of a list.
 random_permu(L) ->
     random_select(L, len(L)).
+
+%% 1.26 Generate the combinations of K distinct objects chosen from the N elements of a list
+combination([], _) ->
+    [];
+combination([X | T], 1) ->
+    [[X] | combination(T, 1)];
+combination(L, K) ->
+    combination(L, [], K).
+
+combination([], _, _) ->
+    [];
+combination([X | T] = L, Acc, K) ->
+    case reverse(Acc) of
+        L ->
+            [];
+        _ ->
+            Y = combination(T, K - 1),
+            [[X | Z] || Z <- Y] ++ combination(T, [X | Acc], K)
+    end.
