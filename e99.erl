@@ -266,16 +266,6 @@ combination([], _) ->
     [];
 combination([X | T], 1) ->
     [[X] | combination(T, 1)];
-combination(L, K) ->
-    combination(L, [], K).
-
-combination([], _, _) ->
-    [];
-combination([X | T] = L, Acc, K) ->
-    case reverse(Acc) of
-        L ->
-            [];
-        _ ->
-            Y = combination(T, K - 1),
-            [[X | Z] || Z <- Y] ++ combination(T, [X | Acc], K)
-    end.
+combination([X | T], K) ->
+    Y = combination(T, K - 1),
+    [[X | Z] || Z <- Y] ++ combination(T, K).
