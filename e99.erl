@@ -25,7 +25,8 @@
          random_select/2,
          random_select2/2,
          random_permu/1,
-         combination/2
+         combination/2,
+         group/2
         ]).
 
 %%% Part 1: Lists
@@ -190,7 +191,7 @@ drop(T, N) ->
 
 drop([], _, _) ->
     [];
-drop([X | T], N, N) ->
+drop([_ | T], N, N) ->
     drop(T, N, 1);
 drop([X | T], N, M) ->
     [X | drop(T, N, M + 1)].
@@ -269,3 +270,22 @@ combination([X | T], 1) ->
 combination([X | T], K) ->
     Y = combination(T, K - 1),
     [[X | Z] || Z <- Y] ++ combination(T, K).
+
+%% 1.27 Group the elements of a set into disjoint subsets. 
+group([], _) ->
+    [];
+group(_, []) ->
+    [];
+group(L, [X | T]) ->
+    C = combination(L, X),
+    times(C, L, T, []).
+
+times(C, _, [], G) ->
+    [C | G];
+times([], _, _, G) ->
+    G;
+times([X | T], L, S, G) ->
+    Y = group(L -- X, S),
+    W = [[X | Z] || Z <- Y],
+    times(T, L, S, W ++ G).
+         
