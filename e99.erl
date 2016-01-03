@@ -27,7 +27,8 @@
          random_permu/1,
          combination/2,
          group/2,
-         lsort/1
+         lsort/1,
+         lfsort/1
         ]).
 
 %%% Part 1: Lists
@@ -299,5 +300,21 @@ lsort([X]) ->
 lsort([X | T]) ->
     lsort([Y || Y <- T, len(Y) < len(X)]) ++ [X] ++
         lsort([Y || Y <- T, len(Y) >= len(X)]).
+%% (b)
+lfsort([]) ->         
+    [];
+lfsort([X]) -> 
+    [X];
+lfsort([X | T] = L) -> 
+    lfsort([Y || Y <- T, freq(Y, L) < freq(X, L)]) ++ [X] ++
+        lfsort([Y || Y <- T, freq(Y, L) >= freq(X, L)]).
 
-         
+freq(_, []) ->
+    0;
+freq(Y, [X | T]) ->
+    case len(Y) == len(X) of
+        true ->
+            1 + freq(Y, T);
+        false ->
+            freq(Y, T)
+    end.
