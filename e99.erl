@@ -26,7 +26,8 @@
          random_select2/2,
          random_permu/1,
          combination/2,
-         group/2
+         group/2,
+         lsort/1
         ]).
 
 %%% Part 1: Lists
@@ -288,4 +289,15 @@ times([X | T], L, S, G) ->
     Y = group(L -- X, S),
     W = [[X | Z] || Z <- Y],
     times(T, L, S, W ++ G).
+
+%% 1.28 Sorting a list of lists according to length of sublists.
+%% (a)
+lsort([]) ->
+    [];
+lsort([X]) ->
+    [X];
+lsort([X | T]) ->
+    lsort([Y || Y <- T, len(Y) < len(X)]) ++ [X] ++
+        lsort([Y || Y <- T, len(Y) >= len(X)]).
+
          
