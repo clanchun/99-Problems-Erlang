@@ -1,4 +1,4 @@
--module(e99).
+-module(e99_list).
 
 -export([last/1,
          last_but_one/1,
@@ -30,8 +30,6 @@
          lsort/1,
          lfsort/1
         ]).
-
-%%% Part 1: Lists
 
 %% 1.01: Find the last element of a list.
 last([]) ->
