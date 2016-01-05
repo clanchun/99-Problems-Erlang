@@ -1,7 +1,10 @@
 -module(e99_arith).
 
+-import(e99_list, [length_encode/1]).
+
 -export([is_prime/1,
-         prime_factors/1
+         prime_factors/1,
+         prime_factors2/1
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -38,3 +41,7 @@ prime_factors(N, M) ->
         false ->
             prime_factors(N, M + 1)
     end.
+
+%% 2.03 Determine the prime factors of a given positive integer (2).
+prime_factors2(N) ->
+    length_encode(prime_factors(N)).
