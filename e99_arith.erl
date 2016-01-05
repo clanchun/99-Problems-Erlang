@@ -1,6 +1,8 @@
 -module(e99_arith).
 
--export([is_prime/1]).
+-export([is_prime/1,
+         prime_factors/1
+        ]).
 
 %% 2.01 Determine whether a given integer number is prime.
 is_prime(N) when N =< 1 ->
@@ -16,4 +18,23 @@ is_prime(N, M) ->
             false;
         true ->
             is_prime(N, M - 1)
+    end.
+
+%% 2.02 Determine the prime factors of a given positive integer. 
+prime_factors(N) ->
+    prime_factors(N, 1).
+
+prime_factors(N, M) when M >= N ->
+    case is_prime(M) of
+        true ->
+            [M];
+        false ->
+            []
+    end;
+prime_factors(N, M) ->
+    case N rem M == 0 andalso is_prime(M) of
+        true ->
+            [M | prime_factors(N div M, M)];
+        false ->
+            prime_factors(N, M + 1)
     end.
