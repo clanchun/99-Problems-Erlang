@@ -5,7 +5,8 @@
 -export([is_prime/1,
          prime_factors/1,
          prime_factors2/1,
-         prime_numbers/2
+         prime_numbers/2,
+         goldbach/1
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -61,4 +62,18 @@ prime_numbers(L, H) ->
             [L | prime_numbers(L + 1, H)];
         false ->
             prime_numbers(L + 1, H)
+    end.
+
+%% 2.05 Goldbach's conjecture.
+goldbach(N) ->
+    goldbach(1, N).
+
+goldbach(M, N) when M > N div 2 ->
+    [];
+goldbach(M, N) ->
+    case is_prime(M) andalso is_prime(N - M) of
+        true ->
+            [M, N - M];
+        false ->
+            goldbach(M + 1, N)
     end.
