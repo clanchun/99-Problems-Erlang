@@ -4,7 +4,8 @@
 
 -export([is_prime/1,
          prime_factors/1,
-         prime_factors2/1
+         prime_factors2/1,
+         prime_numbers/2
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -45,3 +46,19 @@ prime_factors(N, M) ->
 %% 2.03 Determine the prime factors of a given positive integer (2).
 prime_factors2(N) ->
     length_encode(prime_factors(N)).
+
+%% 2.04 A list of prime numbers.
+prime_numbers(H, H) ->
+    case is_prime(H) of
+        true ->
+            [H];
+        false ->
+            []
+    end;
+prime_numbers(L, H) ->
+    case is_prime(L) of
+        true ->
+            [L | prime_numbers(L + 1, H)];
+        false ->
+            prime_numbers(L + 1, H)
+    end.
