@@ -7,7 +7,8 @@
          prime_factors2/1,
          prime_numbers/2,
          goldbach/1,
-         goldbach_list/2
+         goldbach_list/2,
+         gcd/2
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -95,3 +96,11 @@ goldbach_list(L, H) ->
             [[L, A, B] | goldbach_list(L + 1, H)]
     end.
 
+%% 2.07 Determine the greatest common divisor of two positive integer numbers. 
+gcd(H, L) when H < L ->
+    gcd(L, H);
+gcd(H, L) when H rem L == 0 ->
+    L;
+gcd(H, L) ->
+    gcd(L, H - L).
+    
