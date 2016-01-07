@@ -6,7 +6,8 @@
          prime_factors/1,
          prime_factors2/1,
          prime_numbers/2,
-         goldbach/1
+         goldbach/1,
+         goldbach_list/2
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -77,3 +78,20 @@ goldbach(M, N) ->
         false ->
             goldbach(M + 1, N)
     end.
+
+%% 2.06 A list of Goldbach compositions.
+goldbach_list(H, H) ->
+    case goldbach(H) of 
+        [] ->
+            [];
+        [A, B] ->
+            [[H, A, B]]
+    end;
+goldbach_list(L, H) ->
+    case goldbach(L) of
+        [] ->
+            goldbach_list(L + 1, H);
+        [A, B] ->
+            [[L, A, B] | goldbach_list(L + 1, H)]
+    end.
+
