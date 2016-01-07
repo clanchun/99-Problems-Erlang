@@ -8,7 +8,8 @@
          prime_numbers/2,
          goldbach/1,
          goldbach_list/2,
-         gcd/2
+         gcd/2,
+         coprime/2
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -104,3 +105,6 @@ gcd(H, L) when H rem L == 0 ->
 gcd(H, L) ->
     gcd(L, H - L).
     
+%% 2.08 Determine whether two positive integer numbers are coprime.
+coprime(A, B) ->
+    gcd(A, B) == 1.
