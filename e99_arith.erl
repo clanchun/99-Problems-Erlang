@@ -9,7 +9,8 @@
          goldbach/1,
          goldbach_list/2,
          gcd/2,
-         coprime/2
+         coprime/2,
+         phi/1
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -108,3 +109,19 @@ gcd(H, L) ->
 %% 2.08 Determine whether two positive integer numbers are coprime.
 coprime(A, B) ->
     gcd(A, B) == 1.
+
+%% 2.09 Calculate Euler's totient function phi(m).
+phi(1) ->
+    1;
+phi(N) ->
+    phi(1, N).
+
+phi(N, N) ->
+    0;
+phi(L, N) ->
+    case coprime(L, N) of
+        true ->
+            1 + phi(L + 1, N);
+        false ->
+            phi(L + 1, N)
+    end.
