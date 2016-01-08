@@ -10,7 +10,8 @@
          goldbach_list/2,
          gcd/2,
          coprime/2,
-         phi/1
+         phi/1,
+         phi2/1
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -125,3 +126,14 @@ phi(L, N) ->
         false ->
             phi(L + 1, N)
     end.
+
+%% 2.10 Calculate Euler's totient function phi(m) (2).
+phi2(N) ->
+    Ps = prime_factors2(N),
+    phi3(Ps).
+
+phi3([]) ->
+    1;
+phi3([{M, P} | T]) ->
+    (P - 1) * round(math:pow(P, M - 1)) * phi3(T).
+    
