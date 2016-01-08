@@ -1,6 +1,6 @@
 -module(e99_arith).
 
--import(e99_list, [length_encode/1]).
+-import(e99_list, [length_encode/1, len/1]).
 
 -export([is_prime/1,
          prime_factors/1,
@@ -11,7 +11,8 @@
          gcd/2,
          coprime/2,
          phi/1,
-         phi2/1
+         phi2/1,
+         compare_phi/1
         ]).
 
 %% 2.01 Determine whether a given integer number is prime.
@@ -136,4 +137,7 @@ phi3([]) ->
     1;
 phi3([{M, P} | T]) ->
     (P - 1) * round(math:pow(P, M - 1)) * phi3(T).
-    
+
+%% 2.11 Compare the two methods of calculating Euler's totient function.
+compare_phi(N) ->
+    [N, len(prime_factors2(N)) + 2].
