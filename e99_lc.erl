@@ -1,6 +1,8 @@
 -module(e99_lc).
 
--export([table/1]).
+-export([table/1,
+         table2/1
+        ]).
 
 %% 3.01 Truth tables for logical expressions.
 table(E) ->
@@ -27,7 +29,7 @@ eval(A, B, E) ->
         [equ, X, Y] ->
             equ(eval(A, B, X), eval(A, B, Y));
         _ ->
-            illegal_expression
+            throw(illegal_expression)
     end.
 
 and1(true, true) ->
@@ -58,3 +60,35 @@ equ(A, A) ->
     true;
 equ(_, _) ->
     false.
+
+not1(true) ->
+    false;
+not1(false) ->
+    true.
+
+%% 3.02 Truth tables for logical expressions (2).
+table2(E) ->
+    [eval2(A, B, E) || A <- [true, false], B <- [true, false]].
+
+%% operator precedence: [] > not1 > and1 > or1, [] as ()
+eval2(A, B, E) ->
+    case E of
+        a ->
+            A;
+        [a] ->
+            A;
+        b ->
+            B;
+        [b] ->
+            B;
+        [X, or1 | T] ->
+            or1(eval2(A, B, X), eval2(A, B, T));
+        [X, and1 | T] ->
+            and1(eval2(A, B, X), eval2(A, B, T));
+        [not1 | T] ->
+            not1(eval2(A, B, T));
+        [T] ->
+            eval2(A, B, T);
+        _ ->
+            throw(illegal_expression)
+    end.
