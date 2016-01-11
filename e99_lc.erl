@@ -6,28 +6,29 @@
 
 %% 3.01 Truth tables for logical expressions.
 table(E) ->
-    [eval(A, B, E) || A <- [true, false], B <- [true, false]].
+    Vs = [[A, B] || A <- [true, false], B <- [true, false]],
+    [[A, B, eval([A, B], E)] || [A, B] <- Vs].
 
-eval(A, B, E) ->
+eval([A, B], E) ->
     case E of
         a ->
             A;
         b ->
             B;
         [and1, X, Y] ->
-            and1(eval(A, B, X), eval(A, B, Y));
+            and1(eval([A, B], X), eval([A, B], Y));
         [or1, X, Y] ->
-            or1(eval(A, B, X), eval(A, B, Y));
+            or1(eval([A, B], X), eval([A, B], Y));
         [nand, X, Y] ->
-            nand(eval(A, B, X), eval(A, B, Y));
+            nand(eval([A, B], X), eval([A, B], Y));
         [nor, X, Y] ->
-            nor(eval(A, B, X), eval(A, B, Y));
+            nor(eval([A, B], X), eval([A, B], Y));
         [xor1, X, Y] ->
-            xor1(eval(A, B, X), eval(A, B, Y));
+            xor1(eval([A, B], X), eval([A, B], Y));
         [impl, X, Y] ->
-            impl(eval(A, B, X), eval(A, B, Y));
+            impl(eval([A, B], X), eval([A, B], Y));
         [equ, X, Y] ->
-            equ(eval(A, B, X), eval(A, B, Y));
+            equ(eval([A, B], X), eval([A, B], Y));
         _ ->
             throw(illegal_expression)
     end.
@@ -68,27 +69,24 @@ not1(false) ->
 
 %% 3.02 Truth tables for logical expressions (2).
 table2(E) ->
-    [eval2(A, B, E) || A <- [true, false], B <- [true, false]].
+    Vs = [[A, B] || A <- [true, false], B <- [true, false]],
+    [[A, B, eval2([A, B], E)] || [A, B] <- Vs].
 
 %% operator precedence: [] > not1 > and1 > or1, [] as ()
-eval2(A, B, E) ->
+eval2([A, B], E) ->
     case E of
         a ->
             A;
-        [a] ->
-            A;
         b ->
             B;
-        [b] ->
-            B;
         [X, or1 | T] ->
-            or1(eval2(A, B, X), eval2(A, B, T));
+            or1(eval2([A, B], X), eval2([A, B], T));
         [X, and1 | T] ->
-            and1(eval2(A, B, X), eval2(A, B, T));
+            and1(eval2([A, B], X), eval2([A, B], T));
         [not1 | T] ->
-            not1(eval2(A, B, T));
+            not1(eval2([A, B], T));
         [T] ->
-            eval2(A, B, T);
+            eval2([A, B], T);
         _ ->
             throw(illegal_expression)
     end.
