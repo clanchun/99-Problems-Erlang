@@ -1,7 +1,12 @@
 -module(e99_lc).
 
+-import(e99_list, [kth/2]).
+
+
 -export([table/1,
-         table2/1
+         table2/1,
+         table3/2,
+         vars/1
         ]).
 
 %% 3.01 Truth tables for logical expressions.
@@ -79,14 +84,57 @@ eval2([A, B], E) ->
             A;
         b ->
             B;
+        true ->
+            true;
+        false ->
+            false;
         [X, or1 | T] ->
             or1(eval2([A, B], X), eval2([A, B], T));
-        [X, and1 | T] ->
-            and1(eval2([A, B], X), eval2([A, B], T));
-        [not1 | T] ->
-            not1(eval2([A, B], T));
+        [X, and1, not1 | T] ->
+            and1(eval2([A, B], X), eval2([A, B], [not1 | T]));
+        [X, and1, Y | T] ->
+            eval2([A, B], [and1(eval2([A, B], X), eval2([A, B], Y)) | T]);
+        [not1, X | T] ->
+            eval2([A, B], [not1(eval2([A, B], X)) | T]);
         [T] ->
             eval2([A, B], T);
         _ ->
             throw(illegal_expression)
+    end.
+
+%% 3.03 Truth tables for logical expressions (3).
+%% L: [a, b, c ...], in E number means variable: 1 -> a, 2 -> b, 3 -> c, etc.
+%% [1, or1, 2, and1, not1, 1]
+table3(L, E) ->
+    Vs = vars(L),
+    [V ++ [eval3(V, E)] || V <- Vs].
+
+vars([]) ->
+    [];
+vars([_]) ->
+    [[true], [false]];
+vars([_ | T]) ->
+    [[A | B] || A <- [true, false], B <- vars(T)].
+
+%% [a, and1, b, or1, c]
+eval3(Vs, E) ->
+    case E of
+        N when is_integer(N) ->
+            e99_list:kth(Vs, N);
+        true ->
+            true;
+        false ->
+            false;
+        [X, or1 | T] ->
+            or1(eval3(Vs, X), eval3(Vs, T));
+        [X, and1, not1 | T] ->
+            and1(eval3(Vs, X), eval3(Vs, [not1 | T]));
+        [X, and1, Y | T] ->
+            eval3(Vs, [and1(eval3(Vs, X), eval3(Vs, Y)) | T]);
+        [not1, X | T] ->
+            eval3(Vs, [not1(eval3(Vs, X)) | T]);
+        [T] ->
+            eval3(Vs, T);
+        O ->
+            throw({illegal_expression, O})
     end.
