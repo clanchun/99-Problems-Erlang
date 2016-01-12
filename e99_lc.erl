@@ -7,7 +7,7 @@
 -export([table/1,
          table2/1,
          table3/2,
-         gray/1
+         gray/1, gray2/1
         ]).
 
 %% 3.01 Truth tables for logical expressions.
@@ -147,3 +147,16 @@ gray(N) ->
     C = gray(N - 1),
     ["0" ++ X || X <- C] ++ ["1" ++ X || X <- e99_list:reverse2(C)].
 
+gray2(1) ->
+    ["0", "1"];
+gray2(N) ->
+    Cp = 
+        case get({gray, N - 1}) of
+            undefined ->
+                gray(N - 1);
+            Code ->
+                Code
+        end,
+    Cn = ["0" ++ X || X <- Cp] ++ ["1" ++ X || X <- e99_list:reverse2(Cp)],
+    put({gray, N}, Cn),
+    Cn.
