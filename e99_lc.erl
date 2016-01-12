@@ -1,12 +1,13 @@
 -module(e99_lc).
 
--import(e99_list, [kth/2]).
+-import(e99_list, [kth/2,
+                   reverse2/1]).
 
 
 -export([table/1,
          table2/1,
          table3/2,
-         vars/1
+         gray/1
         ]).
 
 %% 3.01 Truth tables for logical expressions.
@@ -138,3 +139,11 @@ eval3(Vs, E) ->
         O ->
             throw({illegal_expression, O})
     end.
+
+%% 3.04 Gray code.
+gray(1) ->
+    ["0", "1"];
+gray(N) ->
+    C = gray(N - 1),
+    ["0" ++ X || X <- C] ++ ["1" ++ X || X <- e99_list:reverse2(C)].
+
