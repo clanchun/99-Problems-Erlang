@@ -153,7 +153,9 @@ gray2(N) ->
     Cp = 
         case get({gray, N - 1}) of
             undefined ->
-                gray(N - 1);
+                C = gray2(N - 1),
+                put({gray, N - 1}, C),
+                C;
             Code ->
                 Code
         end,
