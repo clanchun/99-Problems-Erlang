@@ -1,7 +1,9 @@
 -module(e99_lc).
 
 -import(e99_list, [kth/2,
-                   reverse2/1]).
+                   reverse2/1,
+                   len/1
+                  ]).
 
 
 -export([table/1,
@@ -162,3 +164,4 @@ gray2(N) ->
     Cn = ["0" ++ X || X <- Cp] ++ ["1" ++ X || X <- e99_list:reverse2(Cp)],
     put({gray, N}, Cn),
     Cn.
+
