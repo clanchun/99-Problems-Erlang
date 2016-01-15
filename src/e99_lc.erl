@@ -9,7 +9,8 @@
 -export([table/1,
          table2/1,
          table3/2,
-         gray/1, gray2/1
+         gray/1, gray2/1,
+         hc/1
         ]).
 
 %% 3.01 Truth tables for logical expressions.
@@ -165,3 +166,40 @@ gray2(N) ->
     put({gray, N}, Cn),
     Cn.
 
+%% 3.05 Huffman code.
+hc(SFList) ->
+    build_tree(SFList, []).
+
+build_tree([T], []) ->
+    T;
+build_tree([], [T]) ->
+    T;
+build_tree([[Fa, A]], [[Fb, B]]) ->
+    [Fa + Fb, [A, B]];
+build_tree([[Fa, A], [Fb, B] | T], []) ->
+    build_tree(T, [[Fa + Fb, [A, B]]]);
+build_tree([], [[Fa, A], [Fb, B] | T]) ->
+    build_tree(T, [[Fa + Fb, [A, B]]]);
+build_tree([[Fa, A], [Fb, B] | T], [[Fc, C]]) ->
+    if
+        Fb =< Fc ->
+            build_tree(T, [[Fc, C], [Fa + Fb, [A, B]]]);
+        true ->
+            build_tree([[Fb, B] | T], [[Fa + Fb, [A, C]]])
+    end;    
+build_tree([[Fa, A]], [[Fb, B], [Fc, C] | T]) ->
+    if
+        Fc =< Fa ->
+            build_tree([[Fa, A]], T ++ [[Fb + Fc, [B, C]]]);
+        true ->
+            build_tree([], [[Fc, C] | T] ++ [[Fa + Fb, [A, B]]])
+    end;
+build_tree([[Fa, A], [Fb, B] | Ta] = Qa, [[Fc, C], [Fd, D] | Tb] = Qb) ->
+    if
+        Fb =< Fc ->
+            build_tree(Ta, Qb ++ [[Fa + Fb, [A, B]]]);
+        Fd =< Fa ->
+            build_tree(Qa, Tb ++ [[Fc + Fd, [C, D]]]);
+        true ->
+            build_tree(tl(Qa), tl(Qb) ++ [[Fa + Fc, [A, C]]])
+    end.
