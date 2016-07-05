@@ -1,7 +1,8 @@
 -module(e99_bt).
 
 -export([istree/1,
-         cbal_tree/1
+         cbal_tree/1,
+         symmetric/1
         ]).
 
 
@@ -33,3 +34,26 @@ cbal_tree(N) ->
             [{x, LT, LR} || LT <- Left, LR <- Right] ++ 
                 [{x, LT, LR} || LT <- Right, LR <- Left]
     end.
+
+%% 4.03 Symmetric binary trees
+symmetric(T) ->
+    mirror(T, T).
+
+mirror(nil, nil) ->
+    true;
+mirror(nil, _) ->
+    false;
+mirror(_, nil) ->
+    false;
+mirror({_, nil, nil}, {_, nil, nil}) ->
+    true;
+mirror({_, nil, nil}, {_, _, nil}) ->
+    false;
+mirror({_, nil, nil}, {_, nil, _}) ->
+    false;
+mirror({_, _, nil}, {_, nil, nil}) ->
+    false;
+mirror({_, nil, _}, {_, nil, nil}) ->
+    false;
+mirror({_, La, Ra}, {_, Lb, Rb}) ->
+    mirror(La, Rb) andalso mirror(Lb, Ra).
