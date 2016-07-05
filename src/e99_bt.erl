@@ -2,10 +2,9 @@
 
 -export([istree/1,
          cbal_tree/1,
-         symmetric/1
+         symmetric/1,
+         construct/1
         ]).
-
-
 
 %% {value, left, right} | nil
 
@@ -57,3 +56,20 @@ mirror({_, nil, _}, {_, nil, nil}) ->
     false;
 mirror({_, La, Ra}, {_, Lb, Rb}) ->
     mirror(La, Rb) andalso mirror(Lb, Ra).
+
+%% 4.04 Binary search trees (dictionaries)
+construct(L) ->
+    construct(L, nil).
+
+construct([], T) ->
+    T;
+construct([X | L], T) ->
+    construct(L, add(X, T)).
+
+add(X, nil) ->
+    {X, nil, nil};
+add(X, {V, L, R}) 
+  when X < V ->
+    {V, add(X, L), R};
+add(X, {V, L, R}) ->
+    {V, L, add(X, R)}.
