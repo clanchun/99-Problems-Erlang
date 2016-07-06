@@ -3,7 +3,8 @@
 -export([istree/1,
          cbal_tree/1,
          symmetric/1,
-         construct/1
+         construct/1,
+         sym_cbal_trees/1
         ]).
 
 %% {value, left, right} | nil
@@ -73,3 +74,10 @@ add(X, {V, L, R})
     {V, add(X, L), R};
 add(X, {V, L, R}) ->
     {V, L, add(X, R)}.
+
+%% 4.05 Generate-and-test paradigm
+sym_cbal_trees(N) when N rem 2 == 0 ->
+    [];
+sym_cbal_trees(N) ->
+    [T || T <- cbal_tree(N), symmetric(T)].
+    
