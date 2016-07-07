@@ -4,7 +4,8 @@
          cbal_tree/1,
          symmetric/1,
          construct/1,
-         sym_cbal_trees/1
+         sym_cbal_trees/1,
+         hbal_tree/1
         ]).
 
 %% {value, left, right} | nil
@@ -81,3 +82,14 @@ sym_cbal_trees(N) when N rem 2 == 0 ->
 sym_cbal_trees(N) ->
     [T || T <- cbal_tree(N), symmetric(T)].
     
+%% 4.06 Construct height-balanced binary trees
+hbal_tree(0) ->
+    [nil];
+hbal_tree(1) ->
+    [{x, nil, nil}];
+hbal_tree(H) ->
+    Left = hbal_tree(H - 1),
+    Right = hbal_tree(H - 2),
+    [{x, L, R} || L <- Left, R <- Right] ++
+        [{x, L, R} || L <- Right, R <- Left] ++
+        [{x, L, R} || L <- Left, R <- Left].
